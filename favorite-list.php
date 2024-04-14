@@ -42,11 +42,10 @@ $json = json_encode($values,JSON_UNESCAPED_UNICODE);
   <button id="sort-desc"><span class="material-symbols-outlined">sort</span>RATE DESC</button>
 </div> -->
 
-
-
-<div id="books">
+<div id="books_f">
+<div id="no-result" style="display: none;">No Result</div>
 <?php foreach($values as $value){ ?>
-    <div class="bookinfo" data-rate="<?= $value['rate']; ?>">
+    <div class="bookinfo_f" data-rate="<?= $value['rate']; ?>">
         <div><img src="<?=$value["thumbnail"];?>" ?></div>
         <h3><?=$value["title"];?></h3>
         <ul class="bookprofile">
@@ -69,10 +68,6 @@ $json = json_encode($values,JSON_UNESCAPED_UNICODE);
             </div>
         <?php endif; ?>
 
-        <!-- UPDATE -->
-        <button type="button" class="review"><span class="material-symbols-outlined">reviews</span>review</button>
-        <!-- <a href="javascript:void(0);" class="review"><span class="material-symbols-outlined">reviews</span>review</a> -->
-
         <div class="review_popup" style="display:none;">
             <a href="javascript:void(0);" class="close-btn"></a>
             <div class="pop-container">
@@ -94,15 +89,82 @@ $json = json_encode($values,JSON_UNESCAPED_UNICODE);
             </form>
             </div>
         </div>
-        
-        <!-- DELETE -->
-        <form method="POST">
-            <input type="hidden" name="isbn" value="<?= $value['isbn']; ?>">
-            <button type="submit" class="delete"><span class="material-symbols-outlined">heart_plus</span>delete</button>
-        </form>
+
+        <div class="d-btn">
+            <!-- UPDATE -->
+            <button type="button" class="review"><span class="material-symbols-outlined">reviews</span>review</button>
+            <!-- <a href="javascript:void(0);" class="review"><span class="material-symbols-outlined">reviews</span>review</a> -->
+
+            <!-- DELETE -->
+            <form method="POST">
+                <input type="hidden" name="isbn" value="<?= $value['isbn']; ?>">
+                <button type="submit" class="delete"><span class="material-symbols-outlined">heart_plus</span>delete</button>
+            </form>
+        </div>
 
         <div class="regist-date">登録日：<?=$value["registDate"];?></div>
 
     </div>
     <?php }?>
  </div>
+
+<!-- 2カラムmasonry適用 -->
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#books_f').masonry({
+        itemSelector: '.bookinfo_f',
+        columnWidth: 185,
+        gutter: 10,
+        percentPosition: false
+    });
+});
+
+// フィルター制御
+$(document).on("click",".filter-btn",function(e){
+    e.preventDefault();
+    showLoading();
+
+    $(".filter-btn").css('color','#4b4b4b');
+    $(".filter-btn").css('font-weight','normal');
+    $(this).css('color','#ffd755');
+    $(this).css('font-weight','800');
+
+    let selectRate = $(this).data("rate"); //ボタンのrate数
+    let books = $(".bookinfo_f"); //書誌数
+    let showCount = 0;
+
+    setTimeout(function() {
+        for(let i=0;i<books.length;i++){
+            let book = $(books[i]);
+            let bookRate = book.data("rate");
+
+            if(selectRate === "all"){
+                book.show();
+                showCount++;
+            }else if(selectRate === "unread"){
+                if(bookRate === null || bookRate ===""){
+                    book.show();
+                    showCount++;
+                } else {
+                    book.hide();
+                }
+            }else if(bookRate === selectRate){
+                book.show();
+                showCount++;
+            }else {
+                book.hide();
+            }
+        // no resultの表示実装
+        if(showCount===0){
+            $("#no-result").show();
+        } else {
+            $("#no-result").hide();
+        }
+
+        }
+        $('#books_f').masonry('layout');
+    },800);
+});
+
+</script>

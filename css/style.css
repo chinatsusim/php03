@@ -20,6 +20,9 @@ body{
 }
 
 main {
+  width:96%;
+  margin:auto;
+  text-align: center;
   padding-bottom:80px;
   padding-top:90px;
 }
@@ -55,8 +58,25 @@ h3{
   text-align: center;
 }
 
+#start {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+#start img{
+  width: 300px
+}
+
 form.keyword{
-  margin-top: 30px;
+  margin:auto;
+  margin-top: 30px!important;
   height:30px;
   vertical-align: middle;
   display: flex;
@@ -74,32 +94,37 @@ form.keyword input{
 form.keyword button{
   height: 116%;
   width: 14%;
-  margin:0;
+  margin:0!important;
   background-color: #63676b;
   border: 2px solid #63676b!important;
   color:#fff;
   cursor: pointer;
+  text-align: center;
+  border-radius: 3%;
 }
 
 form.keyword button .material-symbols-outlined{
   font-size:24px;
   color:#fff;
+  margin-right:0px!important;
 }
-
 
 .result{
   text-align: left;
-  margin: auto 20px;
   font-size:14px;
-  margin:20px auto;
+  margin:20px 5px;
 }
 
 .result div{
   margin-bottom:8px;
 }
 
-#books{
+/* 2カラムのCSSによる実装 */
+/* #books{
   column-count:2;
+  width:96%;
+  margin:auto;
+
 }
 
 .bookinfo{
@@ -109,9 +134,51 @@ form.keyword button .material-symbols-outlined{
   border-radius: 5px;
   font-size:12px;
   break-inside: avoid;
+} */
+
+#books{
+  /* width: 96%; */
+  padding-right: 0!important;
+  margin-right: -20px;
+}
+
+.bookinfo{
+  width: 46%;
+  margin-bottom: 10px!important;
+  background-color: #fff;
+  padding: 20px;
+  box-sizing: border-box;
+  font-size:12px;
+  margin:auto;
+  padding:20px 10px;
+  border-radius: 5px;
 }
 
 .bookinfo img{
+  width:100px;
+  text-align: center;
+  margin: auto;
+}
+
+#books_f{
+  /* width: 96%; */
+  padding-right: 0!important;
+  margin-right: -20px;
+}
+
+.bookinfo_f{
+  width: 46%;
+  margin-bottom: 10px!important;
+  background-color: #fff;
+  padding: 20px;
+  box-sizing: border-box;
+  font-size:12px;
+  margin:auto;
+  padding:20px 10px;
+  border-radius: 5px;
+}
+
+.bookinfo_f img{
   width:100px;
   text-align: center;
   margin: auto;
@@ -228,6 +295,11 @@ footer ul.menu a{
   color:#63676b;
 }
 
+.d-btn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 /* 削除ボタン */
 .delete {
@@ -235,7 +307,7 @@ footer ul.menu a{
   color:#fff;
   border:none;
   cursor: pointer;
-  margin:8px;
+  margin:8px 2px;
   vertical-align: middle;
   padding:4px 10px;
   border-radius: 2px;
@@ -252,7 +324,7 @@ footer ul.menu a{
   color:#495057;
   border:none;
   cursor: pointer;
-  margin:8px;
+  margin:8px 2px;
   vertical-align: middle;
   padding:4px 10px;
   border-radius: 2px;
@@ -311,8 +383,8 @@ footer ul.menu a{
 /* レビュー内容の表示 */
 .reviewed{
   background-color: #fbebed;
-  margin:10px;
-  padding:5px 10px 10px;
+  margin:2px;
+  padding:5px 7px 10px;
   border-radius: 3%;
 }
 
@@ -430,11 +502,12 @@ footer ul.menu a{
 
 /* フィルター */
 .filters{
-  margin-bottom:30px;
   border-bottom:solid #c4c4c4 1px;
   width:90%;
   text-align: center;
   cursor: pointer;
+  margin:auto;
+  margin-bottom:30px!important;
 }
 .filter-btn{
   width:50px;

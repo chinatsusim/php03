@@ -5,6 +5,8 @@
     <title>絵本検索サービス
     </title>
     <script src="js/jquery-2.1.3.min.js"></script>
+    <script src="js/masonry.pkgd.min.js"></script>
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,12 +14,15 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body>
-<header>
+<div id="start" style="display:none;"><img src="img/logo.png" alt=""></div>
+
+<header style="display:none;">
     <h1><a href="./"><img src="img/logo.png" alt=""></a></h1>
 </header>
 
-<main>
+<main style="display:none;">
     <div id="search-result"><?php include 'search.php'; ?></div>
     <div id="favorite-list" style="display:none;"><?php include 'favorite-list.php'; ?></div>
 </main>
@@ -35,7 +40,7 @@
 </div>
 
 <!-- フッター -->
-<footer>
+<footer style="display:none;">
     <ul class="menu">
         <a href="javascript:void(0);" id="m01"><li><span class="material-symbols-outlined">search</span><br>SEARCH</li></a>
         <a href="javascript:void(0);" id="m02"><li><span class="material-symbols-outlined">favorite</span><br>FAVORITE</li></a>
@@ -43,10 +48,48 @@
 </footer>
 
 <script>
+function start(){
+    $('#start').fadeIn(800, function() {
+        setTimeout(function() {
+            $('#start').fadeOut(800, function() {
+                $('header').fadeIn(400);
+                $('main').fadeIn(400,function(){
+                    $('#books').masonry({
+                        itemSelector: '.bookinfo',
+                        columnWidth: 185,
+                        gutter: 10,
+                        percentPosition: false
+                    });
+                });
+                $('footer').fadeIn(400);
+            });
+        }, 1000);
+    });
+}
+
+// $(document).ready(function() {
+//     let mukou = false;
+
+//     $(document).ready(function() {
+//         mukou = true;
+//     })
+
+//     function yukou(){
+//         if(!mukou){
+//             start();
+//         }
+//     }
+//     yukou();
+// });
+
+
 //ローディングアニメーション用の関数
 function showLoading() {
     $(document).ready(function() {
-            $("#loading").fadeIn(800).fadeOut(500);
+        if ($("#loading").is(":visible")) {
+        return;
+        }
+        $("#loading").fadeIn(600).fadeOut(500);
     });
 }
 
@@ -97,7 +140,7 @@ $(".add").on("click",function(e){
 // 非同期でフォーム送信を実行する（削除）
 $(document).on("click", ".delete", function(e){
     e.preventDefault();
-    let form = $(this).closest('.bookinfo');
+    let form = $(this).closest('.bookinfo_f');
     
     let sendData = {
         isbn: form.find('input[name="isbn"]').val()
@@ -130,6 +173,7 @@ $(document).on("click", ".delete", function(e){
 // メニューの切り替え
 $("#m02").on("click",function(e){
     e.preventDefault();
+    showLoading();
     $("#search-result").hide();
     $("#favorite-list").load("favorite-list.php", function() {
         $(this).show();
@@ -138,13 +182,14 @@ $("#m02").on("click",function(e){
 
 $("#m01").on("click",function(e){
     e.preventDefault();
+    showLoading();
     $("#favorite-list").hide();
     $("#search-result").show();
 });
 
 $(document).on("click", ".review", function(e){
     e.preventDefault();
-    $(this).closest('.bookinfo').find(".review_popup").fadeIn(500);
+    $(this).closest('.bookinfo_f').find(".review_popup").fadeIn(500);
 });
 
 $(document).on("click", ".close-btn", function(e) {
@@ -195,43 +240,9 @@ $(document).on("submit", ".review_popup form", function(e) {
     })
 });
 
-// フィルター制御
-$(document).on("click",".filter-btn",function(e){
-    e.preventDefault();
-    showLoading();
-
-    let selectRate = $(this).data("rate"); //ボタンのrate数を取得
-    let books = $(".bookinfo"); //書誌数
-
-    setTimeout(function() {
-        for(let i=0;i<books.length;i++){
-            let book = $(books[i]);
-            let bookRate = book.data("rate");
-
-            if(selectRate === "all"){
-                book.show();
-            }else if(selectRate === "unread"){
-                if(bookRate === null || bookRate ===""){
-                    book.show();
-                } else {
-                    book.hide();
-                }
-            }else if(bookRate === selectRate){
-                book.show();
-            }else {
-                book.hide();
-            }
-        }
-    },800);
-});
-
-// 並び替え（レート）
-
-
-
 
 </script>
 
-
+<!-- </div> -->
 </body>
 </html>

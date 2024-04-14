@@ -1,7 +1,7 @@
 <!-- キーワード入力フォーム -->
-<form action="index.php" method="POST" class="keyword">
+<form method="POST" class="keyword">
     <input type="text" name="author">
-    <button id="submit"><span class="material-symbols-outlined">search</span></button>
+    <button id="submit" class="search-btn"><span class="material-symbols-outlined">search</span></button>
 </form>
 
 <!-- フォーム処理 -->
@@ -38,7 +38,6 @@
     </div>
 
     <div id="books">
-        
     <?php 
     foreach($books as $book):
         $title = $book->volumeInfo->title ?? 'データなし';
@@ -83,3 +82,21 @@
   <?php else: ?>
     <p>検索してみましょう！</p>
   <?php endif; ?>
+
+<!-- 2カラム表示 -->
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+<script>
+$(document).ready(function() {
+    // $('#books').masonry({
+    //     itemSelector: '.bookinfo',
+    //     columnWidth: '.bookinfo',
+    //     gutter: 10,
+    //     percentPosition: true
+    // });
+});
+
+
+
+
+
+</script>
